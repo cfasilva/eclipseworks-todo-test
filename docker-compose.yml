@@ -1,0 +1,20 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "PasswordEclipseworks123"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+
+  server:
+    image: eclipseworks-api
+    build:
+      context: .
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=EclipseworksDb;User=sa;Password=PasswordEclipseworks123;TrustServerCertificate=True
+    ports:
+      - "5050:8080"
+      - "5051:8081"
